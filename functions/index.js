@@ -1,15 +1,20 @@
-import { db } from "./connectDb.js";
+import  functions  from "firebase-functions"; 
+import  express  from "express";
+import  cors  from "cors";
+import { getFamilyVacationsCollection } from "./familyVacation.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/test', (req, res) => {
+    res.send('This is working!')
+});
+
+app.get('/familyVacations', getFamilyVacationsCollection);
+
 export const api = functions.https.onRequest(app);
 
-import { createFamilyVacation } from "./services.js";
-import { getFamilyVacationsCollection } from "./connectDb.js";
-
-api.get('/familyVacations', getFamilyVacationsCollection);
 
 
 

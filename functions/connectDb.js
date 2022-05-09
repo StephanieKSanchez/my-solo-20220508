@@ -1,13 +1,12 @@
-import { functions } from "firebase-functions"; 
-import { express } from "express";
-import { cors } from "cors";
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
+import credentials from "./credentials.js"
 
-import { serviceAccount } from "./credentials.js";
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-export const db = admin.firestore();
-
-export const getFamilyVacationsCollection = db.collection('familyVacations');
+export const connectDb = () => {
+  if(getApps().length === 0) {
+    initializeApp({
+      credential: cert(credentials)
+    });
+  }
+  return getFirestore();
+}
